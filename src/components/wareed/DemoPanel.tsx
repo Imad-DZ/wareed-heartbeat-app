@@ -1,5 +1,4 @@
 import { useState } from "react";
-import confetti from "canvas-confetti";
 import { Zap, AlertOctagon, X, Sparkles } from "lucide-react";
 import type { User } from "./types";
 
@@ -13,7 +12,7 @@ export function DemoPanel({
   const [open, setOpen] = useState(false);
   const [modal, setModal] = useState<string | null>(null);
 
-  const simulateDonation = () => {
+  const simulateDonation = async () => {
     const today = new Date().toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
     const newUser: User = {
       ...user,
@@ -27,7 +26,8 @@ export function DemoPanel({
     };
     onUserChange(newUser);
 
-    // Confetti burst
+    // Confetti burst (client-only dynamic import to keep SSR safe)
+    const confetti = (await import("canvas-confetti")).default;
     const end = Date.now() + 1200;
     const colors = ["#800020", "#ffffff", "#d4af37"];
     (function frame() {
