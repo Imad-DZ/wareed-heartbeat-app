@@ -8,6 +8,7 @@ import { Health } from "./Health";
 import { Rewards } from "./Rewards";
 import { Integration } from "./Integration";
 import { DemoPanel } from "./DemoPanel";
+import { TopBar } from "./TopBar";
 import type { TabKey, User } from "./types";
 
 const STORAGE_KEY = "wareed.user.v1";
@@ -44,14 +45,17 @@ export function WareedApp() {
   return (
     <div className="flex min-h-screen bg-background">
       <Sidebar active={tab} onSelect={setTab} user={user} onLogout={() => setUser(null)} />
-      <main className="flex-1 p-8 lg:p-12 max-w-[1400px] mx-auto w-full">
-        {tab === "dashboard" && <Dashboard user={user} />}
-        {tab === "eligibility" && <Eligibility user={user} onNavigate={setTab} />}
-        {tab === "appointment" && <Appointment user={user} />}
-        {tab === "health" && <Health user={user} />}
-        {tab === "rewards" && <Rewards user={user} />}
-        {tab === "integration" && <Integration />}
-      </main>
+      <div className="flex-1 flex flex-col min-w-0">
+        <TopBar user={user} />
+        <main className="flex-1 p-8 lg:p-12 max-w-[1400px] mx-auto w-full">
+          {tab === "dashboard" && <Dashboard user={user} />}
+          {tab === "eligibility" && <Eligibility user={user} onNavigate={setTab} />}
+          {tab === "appointment" && <Appointment user={user} />}
+          {tab === "health" && <Health user={user} />}
+          {tab === "rewards" && <Rewards user={user} />}
+          {tab === "integration" && <Integration />}
+        </main>
+      </div>
       <DemoPanel user={user} onUserChange={setUser} />
     </div>
   );
